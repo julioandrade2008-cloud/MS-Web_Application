@@ -1,0 +1,22 @@
+AI Usage Documentation
+IS 6465 - Web Application Development
+
+AI Tool Used:
+ChatGPT (OpenAI)
+
+Purpose of AI use:
+Used ChatGPT to help understand HTML, CSS, Bootstrap, and PHP concepts. 
+
+Prompt 1:
+"Explain what .container in Bootstrap is."
+
+Prompt 2: 
+"Is there a difference between .form-label and .form-control?"
+
+How AI Was Used:
+ChatGPT provided explanations and examples to hele me understand web development concepts and how they apply to my projects.
+
+Verification: 
+I reviewed the explantations and applied the concecpts while working on my project.
+One concept I didn't use was the provided example of bootstrap grid code. I rejected this code because the HTML code already Used
+viewport to control how the pages get viewed on different size screens. 
