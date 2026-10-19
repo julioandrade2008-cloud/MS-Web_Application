@@ -1,5 +1,7 @@
 <?php
 
+require_once 'lab2B.php';
+
 //expression
 $x = -5;
 $y = 3 * (abs(2 * $x) + 4);
