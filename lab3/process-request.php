@@ -10,13 +10,13 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $course = trim($_POST["course"] ?? "");
 $topic = trim($_POST["topic"] ?? "");
-$preferredTime = $_POST["preferredtime"] ?? "";
-$preferredDate = $_POST["preferreddate"] ?? "";
+$preferredtime = $_POST["preferredtime"] ?? "";
+$preferreddate = $_POST["preferreddate"] ?? "";
 
 echo "Course: $course\n <br>";
 echo "Topic: $topic\n <br>";
-echo "Preferred Time: $preferredTime\n <br>";
-echo "Preferred Date: $preferredDate\n <br>";
+echo "Preferred Time: $preferredtime\n <br>";
+echo "Preferred Date: $preferreddate\n <br>";
 
 
 $errors = [];
@@ -27,34 +27,35 @@ if (!in_array($course, $allowedCourses, true)) {
     $errors["course"] = "Select a valid course.";
 }
 
-if (!in_array($preferredTime, $allowedTimes, true)) {
+if (!in_array($preferredtime, $allowedTimes, true)) {
     $errors["preferred_time"] = "Select a valid preferred time.";
 }
-
-print_r($errors);
 
 
 if ($topic === "" || mb_strlen($topic) > 120) {
     $errors["topic"] = "Enter a topic of 1 to 120 characters.";
 }
 
-$date = DateTime::createFromFormat("Y-m-d", $preferredDate);
-$validDate = $date && $date->format("Y-m-d") === $preferredDate;
+$today = new DateTimeImmutable("today");
+$preferredDateTime = DateTimeImmutable::createFromFormat("!Y-m-d", $preferreddate);
+$validDate = $preferredDateTime !== false && $preferredDateTime->format("Y-m-d") === $preferreddate;
 
 if (!$validDate) {
     $errors["preferred_date"] = "Enter a valid preferred date.";
+} elseif ($preferredDateTime < $today) {
+    $errors["preferred_date"] = "Preferred date cannot be in the past.";
 }
 
 print_r($errors);
 
-/*
+
 if (!$errors) {
     echo "<h1>Request received</h1>";
     echo "<p>Course: " . htmlspecialchars($course, ENT_QUOTES, "UTF-8") . "</p>";
     echo "<p>Topic: " . htmlspecialchars($topic, ENT_QUOTES, "UTF-8") . "</p>";
     echo "<p>Status: Pending review</p>";
 }
-*/
+
 
 
 ?>
