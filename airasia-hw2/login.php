@@ -7,7 +7,7 @@
 
 </head>
 
-<body>
+<body class="login-page">
 
 <h1>Air Asia Rewards Login</h1>
 

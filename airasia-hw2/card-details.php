@@ -9,7 +9,7 @@
 
 </head>
  
-<body>
+<body class="details-page">
     <h1>Card Info</h1>
     <img src="images/amazon.png" alt="Amazon giftcard">
     <div>
