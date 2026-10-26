@@ -9,20 +9,24 @@
 
 </head>
  
-<body class="details-page">
-    <h1>Card Info</h1>
-    <img src="images/amazon.png" alt="Amazon giftcard">
-    <div>
-        <h2>Amazon</h2>
-        <p>Card Type: Retail</p>
-        <p>Value: $50</p>
-        <p>Points Required: 5,000</p>
-    </div>
+<body>
+    
+<h1>Card Info</h1>
 
-<a href="card-update.php">Update Card</a>
+<div class="details-container">
+    <img class="details-image" src="images/amazon.png" alt="Amazon gift card">
+<div>
+    <h2>Amazon</h2>
+    <p>Card Type: Retail</p>
+    <p>Value: $50.00</p>
+    <p>Points Required: 5,000</p>
+</div>
+
+<a href="card-update.php" class="action-link">Update Card</a>
+<a href="card-list.php" class="back-link" >Back to Gift Card List</a>
+
+</div>
 
 </body>
-
-
 
 </html>

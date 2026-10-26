@@ -48,3 +48,70 @@ article img {
     gap: 20px;
     flex-wrap: wrap;
 }
+
+.form-container{
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 25px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-button {
+background-color: #c92332;
+color: white;
+padding: 12px 20px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+width: 100%;
+}
+
+.back-link {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.action-link {
+    display: block;
+    background-color: #bd2c38;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.form-group input::placeholder {
+    color: #888888;
+    font-size: 13px;
+}
+
+.details-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+.details-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 25px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}

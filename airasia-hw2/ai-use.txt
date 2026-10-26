@@ -1,0 +1,16 @@
+AI Tool Used:
+ChatGPT (OpenAI)
+
+Prompts Used:
+-> "help make the login page look better with CSS"
+-> "Why does field change color when i add text"
+-> "Guide me on using CSS to make my web application look nice"
+-> "Don't write complete CSS code, let's work one page at a time"
+-> "Why did I have to add the HTML5 document declartion and character encoding"
+
+How AI Assisted:
+I used AI to learn HTML attributes, CSS selectors, Flexbox, styling, and troubleshooting while writing and testing the code myself. 
+
+AI Suggestion Tested or Modified:
+I had an issue where the Login button had a sytling issue. My login page displayed a large red rectangle with a small Sign In button inside it.
+Using AI, it was identified that I had applied .form-button to the <div> instead of the <button>. I corrected the HTML and tested the result.

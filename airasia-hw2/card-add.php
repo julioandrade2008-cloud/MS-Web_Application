@@ -8,32 +8,38 @@
 </head>
 
 <body class="add-page">
+
     <h1>Add Gift Card</h1>
 
+<div class="form-container">
     <form action="card-list.php" method="post">
-        <div>
+        <div class="form-group">
             <label for="cardName">Card Name</label>
-            <input type="text" id="cardName" name="cardName" maxlength="100" required>
+            <input type="text" id="cardName" name="cardName" maxlength="100" placeholder="Enter gift card name" required>
         </div>
 
-        <div>
+        <div class="form-group">
             <label for="cardType">Card Type</label>
-            <input type="text" name="cardType" id="cardType" maxlength="100" required>
+            <input type="text" name="cardType" id="cardType" maxlength="100" placeholder="Enter card type" required>
         </div>
         
-        <div>
+        <div class="form-group">
             <label for="cardValue">Card Value</label>
-            <input type="number" name="cardValue" id="cardValue" min="0" step="0.01" required>
+            <input type="number" name="cardValue" id="cardValue" min="0" step="0.01" placeholder="Enter card value (e.g., 50.00)" required>
         </div>
 
-        <div>
+        <div class="form-group">
             <label for="pointsRequired">Points Required</label>
-            <input type="number" name="pointsRequired" id="pointsRequired" min="0" step="1" required>
+            <input type="number" name="pointsRequired" id="pointsRequired" min="0" step="1" placeholder="Enter points required" required>
         </div>
-       
-        <button type="submit">Submit</button>
+        
+        <button class="form-button" type="submit">Submit</button>
     </form>
-    <a href="card-list.php">Back</a>
+    
+    <a href="card-list.php" class="back-link" >Back to Gift Card List</a>
+</div>
+
+   
 </body>
 
 </html>
