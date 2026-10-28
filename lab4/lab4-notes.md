@@ -135,14 +135,13 @@ I submitted the tutoring request with only eight characters in the reason field.
 
 **Result:** Rejected
 
-**Message displayed:** Preffered date cannot be in the past.
+**Message displayed:** Prefered date cannot be in the past.
 
 **Business rule:**
 The preferred tutoring date must be today or a future date. Requests with dates in the past are not allowed.
 
 **Observation:**
-I submitted the request using the day before as the date. The application rejected the request and displayed a message
-explaining that I cannot use a past date. 
+I submitted the request using October 27, 2026, which was one day before the current date. The application rejected the request and displayed a validation message explaining that preferred dates cannot be in the past. This demonstrates that the application checks the submitted date against the current date before accepting the request.  
 
 ## Part 5: Review Testing and CRUD Pages
 
