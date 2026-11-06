@@ -19,10 +19,31 @@ CREATE TABLE if not exists tutoring_requests (
 INSERT OR ignore INTO students (student_name, student_email)
 VALUES ('Maria Lopez', 'maria.lopez@example.com');
 
+INSERT OR ignore INTO students (student_name, student_email)
+VALUES ('Jordan Lee', 'jordan.lee@example.edu');
+
+INSERT OR ignore INTO students (student_name, student_email)
+VALUES ('Avery Patel', 'avery.patel@example.edu');
+
 INSERT OR ignore INTO tutoring_requests
   (student_id, course, topic, preferred_date, preferred_time)
 VALUES
   (1, 'IS 6465', 'PHP arrays and forms', '2026-11-03', '14:00');
+
+INSERT INTO tutoring_requests
+(student_id, course, topic, preferred_date, preferred_time)
+VALUES
+(2, 'IS 6465', 'Forms', '2026-11-09', '10:00');
+
+INSERT INTO tutoring_requests
+(student_id, course, topic, preferred_date, preferred_time)
+VALUES
+(2, 'IS 6465', 'SQL SELECT', '2026-11-10', '14:00');
+
+INSERT INTO tutoring_requests
+(student_id, course, topic, preferred_date, preferred_time)
+VALUES
+(3, 'IS 6465', 'SQLite CRUD', '2026-11-12', '11:00');
 
 select * from students;
 
@@ -42,9 +63,14 @@ SET topic = 'PHP arrays and forms - updated',
     preferred_time = '15:00'
 WHERE request_id = 1;
 
+INSERT INTO tutoring_requests
+(student_id, course, topic, preferred_date, preferred_time)
+VALUES
+(2, 'IS 6465', 'Delete Practice', '2026-11-13', '15:00');
+
 DELETE from tutoring_requests
-WHERE request_id = 2;
+WHERE request_id = 4;
 
 UPDATE tutoring_requests
 SET status = 'Cancelled'
-WHERE request_id = 1;
+WHERE request_id = 3;
