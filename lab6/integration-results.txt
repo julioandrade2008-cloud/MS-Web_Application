@@ -1,0 +1,16 @@
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9000 (through xdebug.client_host/xdebug.client_port) :-(
+PASS UC01 create and Open
+PASS Lab 4 checkbox values preserved
+FAIL Duplicate email reuses student
+FAIL UC02 course and status filter
+PASS Invalid reason rejected
+FAIL Invalid submission writes nothing
+PASS Edit Open request
+PASS Updated reason persisted
+PASS Cancel Open request
+PASS Cancelled row retained
+PASS Second cancellation rejected
+PASS Unrelated request unchanged
+PASS FK enforced
+PASS UC02 empty filter result
+FAILURES: 3
