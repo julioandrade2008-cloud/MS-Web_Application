@@ -102,6 +102,4 @@ The AI Skills Pack helped me understand how the different PHP files work togethe
 
 ## Part 7: Inspect the Database
 
-## Part 7: Inspect the Database
-
 The `JOIN` statement connects the `tutoring_requests` table with the `students` table using the `student_id` column. This allows the query to retrieve information from both tables, such as the student's name and email along with their tutoring request details. The `JOIN` matches records where the student IDs are the same, making it possible to display the student's information without storing it multiple times in the tutoring requests table.
