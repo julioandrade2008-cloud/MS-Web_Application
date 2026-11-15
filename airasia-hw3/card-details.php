@@ -63,8 +63,8 @@ $hasImage = file_exists(
     __DIR__ . '/' . $imagePath
 );
 
-$pageTitle = 'Available Gift Cards';
-$bodyClass = 'list-page';
+$pageTitle = 'Gift Card Details';
+$bodyClass = '';
 
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/nav.php';

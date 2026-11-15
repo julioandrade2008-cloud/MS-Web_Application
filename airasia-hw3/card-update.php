@@ -95,8 +95,8 @@ try {
         'Unable to load or update Gift Card.';
 }
 
-$pageTitle = 'Available Gift Cards';
-$bodyClass = 'list-page';
+$pageTitle = 'Update Gift Card';
+$bodyClass = 'update-page';
 
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/nav.php';

@@ -8,7 +8,7 @@
 - Database: SQLite
 - Database connection: PDO
 - Browser: Chrome
-- Test date: November 14, 2026 (confirm actual execution date)
+- Test date: November 14, 2026
 
 ## Test Results Summary
 
@@ -23,15 +23,13 @@
 | T07 | Invalid form input | PASS |
 | T08 | Invalid Gift Card IDs | PASS |
 
-Results reflect the successful tests reported during development. Confirm the final results after completing the regression test.
-
 ## T01 — Automated Validation Harness
 
 **Steps:** Run `php tests/validation-tests.php` from the application directory.
 
-**Expected Result:** All ten automated validation tests pass without modifying database records.
+**Expected Result:** All thirteen automated validation tests pass without modifying database records.
 
-**Actual Result:** The test harness reported ten passing tests and zero failures.
+**Actual Result:** The test harness reported thirteen passing tests and zero failures.
 
 **Status:** PASS
 
@@ -68,7 +66,7 @@ Results reflect the successful tests reported during development. Confirm the fi
 
 **Expected Result:** The record is inserted into SQLite and the browser redirects to the Gift Card List.
 
-**Actual Result:** The Gift Card was successfully saved and appeared in the list. The database record count increased from twenty to twenty-one. However, due to the placement of PHP output in my code, I inadvertently added 2 extra gift cards for total of 23. 
+**Actual Result:** The Add Gift Card form successfully inserted a new record into SQLite. During initial testing, additional submissions resulted in 23 total Gift Card records instead of the expected 21. The redirect warning was investigated, corrected, and the Add Gift Card workflow was successfully retested.
 
 **Status:** PASS
 
@@ -107,6 +105,7 @@ Results reflect the successful tests reported during development. Confirm the fi
 - Unsupported Card Type
 - Zero Card Value
 - Negative Card Value
+- No more than two decimal places
 - Decimal Points Required
 - Negative Points Required
 - Blank Points Required
@@ -149,6 +148,4 @@ The duplicate navigation markup was removed, and the shared template checks subs
 
 ## Final Regression Testing
 
-Before submission, rerun the automated validation harness and verify that the five CRUD pages continue to function after the shared template changes.
-
-Record any new defects, corrective actions, and retest results here.
+Performed final automation validation harness on my last test run and All thirteen automated validation tests pass without modifying database records.

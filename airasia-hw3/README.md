@@ -93,6 +93,7 @@ Validation includes:
 - Card Name is required and cannot exceed 100 characters.
 - Card Type must match an allowed category.
 - Card Value must be a positive number.
+- Card value must have no more than two decimal places.
 - Points Required must be a positive integer.
 - Gift Card IDs must be valid positive integers.
 
@@ -122,9 +123,9 @@ Run the tests using:
 php tests/validation-tests.php
 ```
 
-The validation harness includes ten test cases covering valid information, missing values, invalid Card Types, nonpositive Card Values, invalid Points Required, Card Name length, and invalid Gift Card IDs.
+The validation harness includes thirteen test cases covering valid information, missing values, invalid Card Types, nonpositive Card Values, two-decimal place values, invalid Points Required, Card Name length, and invalid Gift Card IDs.
 
-The latest reported execution passed all ten tests with zero failures.
+The latest reported execution passed all thirteen tests with zero failures.
 
 ## Project Scope
 

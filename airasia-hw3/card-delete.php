@@ -61,8 +61,8 @@ try {
     exit('Unable to process Gift Card deletion.');
 }
 
-$pageTitle = 'Available Gift Cards';
-$bodyClass = 'list-page';
+$pageTitle = 'Delete Gift Card';
+$bodyClass = '';
 
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/nav.php';

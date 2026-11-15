@@ -7,11 +7,14 @@ PASS: Invalid Points - Decimal
 PASS: Negative Points
 PASS: Blank Points
 PASS: Card Name Over 100 Characters
+PASS: Valid Card Value - Two Decimals
+PASS: Valid Card Value - Whole Dollar
+PASS: Invalid Card Value - Three Decimals
 PASS: Gift Card ID Validation
 
 -------------------------
 Validation Test Summary
 -------------------------
-Passed: 10
+Passed: 13
 Failed: 0
-Total: 10
+Total: 13

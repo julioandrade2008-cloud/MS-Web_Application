@@ -39,12 +39,11 @@ function validateGiftCard(array $data): array
     // Validate Card Value
     if (
         $cardValue === '' ||
-        !is_numeric($cardValue) ||
-        !is_finite((float)$cardValue) ||
+        !preg_match('/^\d+(\.\d{1,2})?$/D', $cardValue) ||
         (float)$cardValue <= 0
     ) {
         $errors['cardValue'] =
-            'Card Value must be a positive number.';
+            'Card Value must be positive and have no more than two decimal places.';
     }
 
     // Validate Points Required

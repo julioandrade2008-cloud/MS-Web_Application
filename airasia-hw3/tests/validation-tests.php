@@ -130,6 +130,34 @@ runTest(
     'cardName'
 );
 
+// Additional Test: Valid two-decimal Card Value
+runTest(
+    'Valid Card Value - Two Decimals',
+    array_merge($validCard, [
+        'cardValue' => '25.50'
+    ]),
+    true
+);
+
+// Additional Test: Valid whole-dollar Card Value
+runTest(
+    'Valid Card Value - Whole Dollar',
+    array_merge($validCard, [
+        'cardValue' => '25'
+    ]),
+    true
+);
+
+// Additional Test: Invalid three-decimal Card Value
+runTest(
+    'Invalid Card Value - Three Decimals',
+    array_merge($validCard, [
+        'cardValue' => '25.999'
+    ]),
+    false,
+    'cardValue'
+);
+
 // Test 10: Invalid Gift Card ID
 $idValid = validateCardId('10');
 $idInvalid = validateCardId('abc');
