@@ -1,0 +1,17 @@
+PASS: Valid Gift Card
+PASS: Blank Card Name
+PASS: Invalid Card Type
+PASS: Zero Card Value
+PASS: Negative Card Value
+PASS: Invalid Points - Decimal
+PASS: Negative Points
+PASS: Blank Points
+PASS: Card Name Over 100 Characters
+PASS: Gift Card ID Validation
+
+-------------------------
+Validation Test Summary
+-------------------------
+Passed: 10
+Failed: 0
+Total: 10
