@@ -1,0 +1,8 @@
+<?php
+function findUserByEmail(PDO $pdo,string $email) { $s=$pdo->prepare('SELECT * FROM users WHERE email=?');$s->execute([strtolower(trim($email))]);return $s->fetch(); }
+function findUserById(PDO $pdo,int $id) { $s=$pdo->prepare('SELECT * FROM users WHERE user_id=?');$s->execute([$id]);return $s->fetch(); }
+function insertUser(PDO $pdo,string $name,string $email,string $hash,string $role): int { $s=$pdo->prepare("INSERT INTO users(full_name,email,password_hash,role,status) VALUES(?,?,?,?,'Active')");$s->execute([$name,$email,$hash,$role]);return (int)$pdo->lastInsertId(); }
+function searchUsers(PDO $pdo,string $search='',string $role='',string $status=''): array { $sql='SELECT user_id,full_name,email,role,status,created_at FROM users WHERE 1=1';$args=[];if($search!==''){$sql.=' AND (full_name LIKE ? OR email LIKE ?)';$args[]='%'.$search.'%';$args[]='%'.$search.'%';}if($role!==''){$sql.=' AND role=?';$args[]=$role;}if($status!==''){$sql.=' AND status=?';$args[]=$status;}$sql.=' ORDER BY user_id';$s=$pdo->prepare($sql);$s->execute($args);return $s->fetchAll(); }
+function updateUserProfile(PDO $pdo,int $id,string $name,string $email): bool { $s=$pdo->prepare('UPDATE users SET full_name=?,email=? WHERE user_id=?');$s->execute([$name,$email,$id]);return $s->rowCount()===1; }
+function updateUserPassword(PDO $pdo,int $id,string $hash): void { $s=$pdo->prepare('UPDATE users SET password_hash=? WHERE user_id=?');$s->execute([$hash,$id]); }
+function updateUserField(PDO $pdo,int $id,string $field,string $value): void { if(!in_array($field,['role','status'],true))throw new InvalidArgumentException('Invalid field');$s=$pdo->prepare("UPDATE users SET $field=? WHERE user_id=?");$s->execute([$value,$id]); }
