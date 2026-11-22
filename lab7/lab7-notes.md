@@ -79,7 +79,13 @@ I also ran `PRAGMA table_info(students);` and confirmed that `students.user_id` 
 
 ## Part 3 — Administrator Account Creation
 
-I created a test administrator account using the administrator creation script, then verified the account in SQLite. I ran:
+I created a test administrator account using the provided php  administrator creation script:
+
+```Bash
+php create-admin.php "Test Administrator" admin@example.com "Password"
+```
+
+I then verified the account in SQLite. I ran:
 
 ```sql
 SELECT user_id, full_name, email, role, status
@@ -102,7 +108,7 @@ The database showed that the administrator account existed, had the `Administrat
 I started the PHP application in Codespaces using:
 
 ```bash
-php -S 0.0.0.0:8000
+php -S 0.0.0.0:8000 -t . php/router.php
 ```
 
 The application opened through forwarded port 8000 and displayed the login form. While logged out, I tried to open `/php/profile.php`. The application returned me to the login page rather than showing the profile. **Result: Pass** for this unauthenticated-access check.
@@ -185,29 +191,27 @@ After logging out, the user's authenticated session should be terminated. If the
 
 **1. Which file displays the Create Account form?**
 
-The `php/register.php` file displays the Create Account form. It contains the fields for full name, email, password, password confirmation, and account type.
+The `php/register.php` file displays the Create Account form.
 
 **2. Which file receives the submitted registration form?**
 
-The `php/register.php` file also receives the submitted form using the POST method. It processes the request by checking the CSRF token and calling the registration service.
+The `php/register.php` file also receives the submitted form using the POST method.
 
 **3. Which file or function creates and verifies the CSRF token?**
 
-The `includes/auth.php` file contains the `csrfToken()`, `csrfField()`, and `verifyCsrfToken()` functions. These functions generate the token, add it to the registration form, and verify it when the form is submitted. This helps protect against Cross-Site Request Forgery attacks.
+The `includes/auth.php` file contains the `csrfToken()`, `csrfField()`, and `verifyCsrfToken()` functions.
 
 **4. Which service validates the registration information?**
 
-The `services/userService.php` file contains the `registerUser()` function. It uses `validateIdentity()` and `validatePassword()` to check the user's information. It also verifies that the passwords match, the email is not already registered, and the selected role is Student or Tutor.
+The `services/userService.php` file contains the `registerUser()` function. It uses `validateIdentity()` and `validatePassword()` to check the user's information.
 
 **5. Where is the password hashed?**
 
-The password is hashed inside the `registerUser()` function in `services/userService.php`, using PHP's `password_hash()` function with `PASSWORD_DEFAULT`. This ensures that the database stores a password hash instead of the actual password.
+The password is hashed inside the `registerUser()` function in `services/userService.php`, using PHP's `password_hash()` function with `PASSWORD_DEFAULT`.
 
 **6. Which repository files insert user and student data?**
 
 The `repositories/userPDO.php` file contains the `insertUser()` function, which inserts the new account into the users table.
-
-The `repositories/studentPDO.php` file contains student database functions, including `insertStudentIfAbsent()`. However, the current registration workflow inserts the student record directly through a prepared SQL statement in `services/userService.php`, rather than calling the student repository.
 
 **7. Which database tables receive records when a student registers?**
 
@@ -216,21 +220,19 @@ Two SQLite tables receive records:
 - `users` stores the account information, including name, email, password hash, role, and status.
 - `students` stores the student's name, email, and associated `user_id`.
 
-The `user_id` connects the student record to the registered user account.
-
 ### User Login Workflow
 
 **1. Which file displays the login form?**
 
-The `php/login.php` file displays the login form. It provides the email and password fields that users enter to access the Peer Tutoring Hub application.
+The `php/login.php` file displays the login form.
 
 **2. Which file receives the submitted login credentials?**
 
-The `php/login.php` file also receives the submitted login credentials using the POST method. It verifies the CSRF token and passes the submitted information to the login service for authentication.
+The `php/login.php` file also receives the submitted login credentials using the POST method.
 
 **3. Which repository retrieves a user by email address?**
 
-The `repositories/userPDO.php` file retrieves user information from the SQLite database using the `findUserByEmail()` function. This function searches the `users` table for the email address submitted during login.
+The `repositories/userPDO.php` file retrieves user information from the SQLite database using the `findUserByEmail()` function. 
 
 **4. Where is the submitted password verified?**
 
@@ -238,7 +240,7 @@ The submitted password is verified in `services/userService.php` using PHP's `pa
 
 **5. What session actions occur after successful login?**
 
-After a successful login, the application calls the `loginSession()` function in `includes/auth.php`. This function starts a secure session, regenerates the session ID, and stores the user's ID, role, display name, and last activity time in the session. It also ensures that a CSRF token is available.
+After a successful login, the application calls the `loginSession()` function in `includes/auth.php`. This function starts a secure session, regenerates the session ID, and stores the user's ID, role, display name, and last activity time in the session.
 
 **6. Why should the application regenerate the session ID after login?**
 
@@ -247,10 +249,6 @@ Regenerating the session ID helps prevent session fixation attacks. If an attack
 **7. How does the application determine whether the logged-in user is a student or administrator?**
 
 The application retrieves the user's role from the `users` table in the SQLite database. The role is stored in the session after login. Functions such as `requireRole()` in `includes/auth.php` use this information to determine which pages and actions the user is authorized to access. Students are limited to their own tutoring requests, while administrators can access user-management functions and requests from different students.
-
-### Login Workflow Summary
-
-When a user submits the login form, `login.php` receives the email and password and performs the CSRF security check. The application uses the user service and repository to retrieve the account from SQLite and verify the password. If the credentials are correct and the account is active, the application creates an authenticated session and provides access based on the user's role.
 
 ### Why Password Hashing and Verification Belong in the Application Layer
 
@@ -275,8 +273,6 @@ Validation failures: 0
 ```
 
 **Test Result: Pass – 10 passed, 0 failed.**
-
-All validation tests passed successfully. These tests verified that the application correctly handles valid and invalid input, including missing information, altered values, topic selections, and text length requirements.
 
 ### Test Group 2: User Management Tests
 
@@ -319,10 +315,6 @@ Results: 25 passed, 0 failed
 ```
 
 **Test Result: Pass – 25 passed, 0 failed.**
-
-All 25 user management tests passed. These tests verified account registration, password hashing, login validation, profile management, role updates, account status restrictions, and access controls.
-
-The tests also confirmed that students cannot access or modify tutoring requests belonging to another user. Administrator protections were verified, including preventing the deactivation of the last active administrator.
 
 ### Test Group 3: Integration Tests
 
@@ -379,23 +371,6 @@ However, three integration tests failed and require further investigation.
 
 **Possible Issue:** The request validation service and database transaction handling may need further investigation. It is possible that a database operation occurs before all validation checks are completed, or that the test detects an unexpected database change.
 
-### Automated Testing Summary
-
-| Test Group | Passed | Failed | Result |
-|---|---:|---:|---|
-| Validation Tests | 10 | 0 | Pass |
-| User Management Tests | 25 | 0 | Pass |
-| Integration Tests | 11 | 3 | Fail |
-| **Total** | **46** | **3** | **49 tests** |
-
-Overall, I ran 49 automated tests for the Peer Tutoring Hub application. Of those tests, 46 passed and 3 failed.
-
-The validation and user management tests passed without any failures. The integration tests identified three areas that may require further investigation involving student records, request filtering, and invalid database submissions.
-
-An Xdebug connection warning appeared during testing, but it did not prevent the tests from executing.
-
-I did not modify any of the automated test files, as instructed in the lab requirements.
-
 ## Part 9: Use the AI Skills Pack Process
 
 ### Application Builder
@@ -426,9 +401,7 @@ I selected the AI statement that the application uses CSRF protection during reg
 
 I reviewed the `includes/auth.php` file and confirmed that it contains the `csrfToken()` and `verifyCsrfToken()` functions. The `csrfToken()` function generates a random token and stores it in the session, while `verifyCsrfToken()` compares the submitted token against the stored token using `hash_equals()`.
 
-This confirms that the application contains the CSRF protection functions described by the AI. However, the registration page must also call these functions for the protection to be applied during registration.
-
-**Evaluation Result:** Partially verified. The security functions were confirmed in `includes/auth.php`, but their use in `register.php` still needs direct verification.
+This confirms that the application contains the CSRF protection functions described by the AI.
 
 ---
 
@@ -452,20 +425,6 @@ The following table traces each requirement through the application and identifi
 | Student logs in | `php/login.php` | `loginSession()` in `includes/auth.php` | `userService.php` — password verification | `userPDO.php` — `findUserByEmail()` | `users` | UM-09 tests passed |
 | Student creates a tutoring request | `php/request-form.php`, `php/process-request.php` | `requireLogin()`, `requireRole()`, `verifyCsrfToken()` | `requestService.php` — `submitAuthenticatedRequest()` | `requestPDO.php` — `insertTutoringRequest()` | `students`, `tutoring_requests` | UC01 and ownership tests passed |
 | User logs out | `php/logout.php` | `logoutSession()` in `includes/auth.php` | Session cleanup | No repository write required | No direct database update | Manual logout retest passed |
-
-**My Evaluation:**
-
-I reviewed the traceability table and compared it with the application code and automated test results.
-
-One statement I evaluated was that students must be authenticated and have the Student role before creating tutoring requests.
-
-The application's `includes/auth.php` file contains the `requireLogin()` and `requireRole()` functions, which enforce authentication and role-based authorization. The automated user management tests also passed the checks for student request ownership and preventing non-students from creating requests.
-
-These results support the AI's explanation of how authorization protects tutoring requests. However, the exact function calls in `php/process-request.php` should still be reviewed to complete the source-code verification.
-
-**Evaluation Result:** Supported by the authentication code and automated test results, with the request-processing code requiring final verification.
-
-The traceability table helped me understand how requirements connect to specific PHP files, database tables, and automated tests. It also showed why reviewing the actual implementation is important instead of assuming every AI-generated statement is correct.
 
 ---
 
@@ -514,8 +473,6 @@ During Part 5, I encountered an issue with the logout function that required cor
 Although the logout function worked after the correction, testing direct access to protected pages would provide additional evidence that session management is functioning correctly.
 
 This test would help ensure that users cannot continue accessing protected account information after logging out.
-
-**Evaluation Result:** Appropriate additional security test. The logout function was retested successfully, but direct protected-page access after logout still needs to be verified.
 
 ---
 
@@ -579,9 +536,3 @@ The application separates account information from student profile information t
 **4. Why may an administrator account not have a matching row in the students table?**
 
 An administrator account may not have a matching student record because administrators have a different role in the application. Their main responsibility is to manage users and oversee tutoring requests rather than submit requests as students. In my query results, the Test Administrator account appeared with no matching student information, which demonstrates how the `LEFT JOIN` works.
-
-### Database Inspection Summary
-
-This activity helped me understand how the application uses relationships between database tables to organize user information. The query returned both the administrator and student accounts, even though only the student account had a matching student profile.
-
-The results confirmed that the `users` and `students` tables are connected through `user_id` and that account information is stored separately from student-specific information. This structure allows the application to support different user roles while keeping the database organized.

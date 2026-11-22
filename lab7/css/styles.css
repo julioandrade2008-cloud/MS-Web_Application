@@ -76,7 +76,7 @@ h1 {
 
 /* Request form */
 
-main form {
+main form:not(.row) {
     max-width: 900px;
     margin: 42px auto;
     padding: 32px;
@@ -300,4 +300,13 @@ footer {
     table {
         width: calc(100% - 32px);
     }
+}
+
+/* Tutoring requests filter layout */
+main form.row {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
 }

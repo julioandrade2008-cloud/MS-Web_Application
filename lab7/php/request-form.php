@@ -4,7 +4,7 @@ require_once __DIR__.'/../includes/header.php';
 require_once __DIR__.'/../includes/nav.php';
 ?>
 
-<main>
+<main class="container py-4">
     <h1>Request a tutoring session</h1>
 
     <form class="tutoring-request-form" action="process-request.php" method="post">
