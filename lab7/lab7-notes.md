@@ -29,7 +29,7 @@ Lab 6 allowed users to submit, view, edit, and cancel tutoring requests using PH
 
 ### 4. Generated code verified against the reading handout
 
-I reviewed the generated `lab7/includes/auth.php` file and compared its `loginSession()` function with the **Start the authenticated session** section of the Authentication Reading Handout (page 4). The generated function calls `session_regenerate_id(true)` after login and stores the authenticated user's ID, role, display name, and last activity time in `$_SESSION`. This matches the handout's recommendation to regenerate the session ID after login and store a limited amount of user information on the server. I verified the presence of this code in the generated file; actual login behavior is checked separately during application testing.
+I reviewed the generated `lab7/includes/auth.php` file and compared its `loginSession()` function with the **Start the authenticated session** section of the Authentication Reading Handout (page 4). The generated function calls `session_regenerate_id(true)` after login and stores the authenticated user's ID, role, display name, and last activity time in `$_SESSION`. This matches the handout's recommendation to regenerate the session ID after login and store a limited amount of user information on the server. I verified the presence of this code in the generated file; actual login behavior was checked separately during application testing.
 
 ```php
 function loginSession(array $u): void {
@@ -42,21 +42,21 @@ function loginSession(array $u): void {
     csrfToken();
 }
 ```
-
 ---
 
 ## Part 2 — SQLite Database Setup
 
 ### 1. Database setup commands
 
-The database setup instructions included the following two commands from inside the `lab7` folder:
+The database setup instructions included the following commands from inside the `lab7` folder:
 
 ```bash
 sqlite3 tutoring.db < setup-database.sql
-sqlite3 tutoring.db < upgrade-to-user-management.sql
+sqlite3 tutoring.db < upgrade-to-user-management.sql 
+php database/upgrade.php
 ```
 
-The first command creates the original tutoring database tables. The second command upgrades the database for user management.
+These commands creates the original tutoring database tables, upgrades the database for user management.
 
 ### 2. Database table verification
 
@@ -65,7 +65,6 @@ After completing the setup, I checked the database tables using:
 ```bash
 sqlite3 database/tutoring.db
 .tables
-.quit
 ```
 
 I confirmed that the three required tables appeared: `students`, `tutoring_requests`, and `users`.
@@ -75,7 +74,6 @@ I confirmed that the three required tables appeared: `students`, `tutoring_reque
 ![Table display](images/part2.png)
 
 I also ran `PRAGMA table_info(students);` and confirmed that `students.user_id` exists. A separate query confirmed that the administrator account had the `Administrator` role and `Active` status.
-
 
 ---
 
