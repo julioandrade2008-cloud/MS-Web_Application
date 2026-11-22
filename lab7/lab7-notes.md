@@ -398,7 +398,7 @@ An Xdebug connection warning appeared during testing, but it did not prevent the
 
 I did not modify any of the automated test files, as instructed in the lab requirements.
 
-## Part 9 – AI Skills Pack Process
+## Part 9: Use the AI Skills Pack Process
 
 ### Application Builder
 
@@ -410,20 +410,180 @@ Explain how a student registration request moves from register.php through authe
 
 The Peer Tutoring Hub application uses a three-tier architecture to separate the presentation layer, business logic, and database operations.
 
-The registration process begins in `php/register.php`, which displays the registration form and receives the submitted information. The application uses security functions from `includes/auth.php` to generate and verify a CSRF token.
+The registration process begins in `php/register.php`, which displays the Create Account form and receives the submitted information through a POST request.
 
-Next, the registration information is passed to `services/userService.php`, where the application validates the submitted information, checks for duplicate accounts, and hashes the password.
+The `includes/auth.php` file provides security functions that generate and verify CSRF tokens. These tokens help protect the application against unauthorized form submissions.
 
-The `repositories/userPDO.php` file handles user database operations using PDO. The database connection is established through `config/db.php`, which connects the application to SQLite.
+Next, `services/userService.php` handles the registration logic. It validates the user's name, email, password, and selected role. It also checks for duplicate accounts and hashes the password using PHP's `password_hash()` function.
 
-Finally, the account information is stored in the `users` table, and a linked student record is created in the `students` table. In the current implementation, the student record is inserted through a prepared SQL statement in the registration service.
+The `repositories/userPDO.php` file handles user database operations through PDO. The database connection is established through `config/db.php`, which connects the application to SQLite.
 
-**My Evaluation of the AI Response:**
+Finally, the account information is stored in the `users` table, and a linked student record is created in the `students` table.
+
+One implementation detail is that the registration service directly inserts the student record using a prepared SQL statement rather than delegating that operation to the student repository.
+
+**My Evaluation:**
 
 I selected the AI statement that the application uses CSRF protection during registration.
 
-I reviewed the `includes/auth.php` file and confirmed that it contains the `csrfToken()` and `verifyCsrfToken()` functions. The first function generates a random token and stores it in the session, while the second function compares the submitted token against the stored token using `hash_equals()`.
+I reviewed the `includes/auth.php` file and confirmed that it contains the `csrfToken()` and `verifyCsrfToken()` functions. The `csrfToken()` function generates a random token and stores it in the session, while `verifyCsrfToken()` compares the submitted token against the stored token using `hash_equals()`.
 
-This confirms that the application contains the CSRF protection functions described by the AI. The remaining step is to verify that `register.php` calls these functions during registration.
+This confirms that the application contains the CSRF protection functions described by the AI. However, the registration page must also call these functions for the protection to be applied during registration.
 
-**Evaluation Result:** Partially verified against the actual PHP code.
+**Evaluation Result:** Partially verified. The security functions were confirmed in `includes/auth.php`, but their use in `register.php` still needs direct verification.
+
+---
+
+### Traceability Auditor
+
+**AI Prompt:**
+
+Trace the requirement "a student can register, log in, create a tutoring request, and log out" through the presentation pages, authentication code, services, repositories, SQLite tables, and automated tests in this project.
+
+**AI Response:**
+
+The Peer Tutoring Hub uses presentation pages, authentication functions, service-layer validation, PDO repositories, and SQLite tables to support registration, login, tutoring requests, and logout.
+
+The following table traces each requirement through the application and identifies the supporting test evidence.
+
+**Traceability Table:**
+
+| Requirement | Presentation Page | Authentication or Authorization | Service or Validation | Repository or SQL | Database Table | Test Evidence |
+|---|---|---|---|---|---|---|
+| Student registers an account | `php/register.php` | `includes/auth.php` — CSRF protection | `userService.php` — `registerUser()` | `userPDO.php` and student INSERT in service | `users`, `students` | UM-01 tests passed |
+| Student logs in | `php/login.php` | `loginSession()` in `includes/auth.php` | `userService.php` — password verification | `userPDO.php` — `findUserByEmail()` | `users` | UM-09 tests passed |
+| Student creates a tutoring request | `php/request-form.php`, `php/process-request.php` | `requireLogin()`, `requireRole()`, `verifyCsrfToken()` | `requestService.php` — `submitAuthenticatedRequest()` | `requestPDO.php` — `insertTutoringRequest()` | `students`, `tutoring_requests` | UC01 and ownership tests passed |
+| User logs out | `php/logout.php` | `logoutSession()` in `includes/auth.php` | Session cleanup | No repository write required | No direct database update | Manual logout retest passed |
+
+**My Evaluation:**
+
+I reviewed the traceability table and compared it with the application code and automated test results.
+
+One statement I evaluated was that students must be authenticated and have the Student role before creating tutoring requests.
+
+The application's `includes/auth.php` file contains the `requireLogin()` and `requireRole()` functions, which enforce authentication and role-based authorization. The automated user management tests also passed the checks for student request ownership and preventing non-students from creating requests.
+
+These results support the AI's explanation of how authorization protects tutoring requests. However, the exact function calls in `php/process-request.php` should still be reviewed to complete the source-code verification.
+
+**Evaluation Result:** Supported by the authentication code and automated test results, with the request-processing code requiring final verification.
+
+The traceability table helped me understand how requirements connect to specific PHP files, database tables, and automated tests. It also showed why reviewing the actual implementation is important instead of assuming every AI-generated statement is correct.
+
+---
+
+### Test Harness Generator
+
+**AI Prompt:**
+
+Suggest one useful test case for authentication or authorization in the Peer Tutoring Hub application. The test must relate to registration, login, logout, session protection, role based access, password validation, CSRF protection, or account status.
+
+**AI Response:**
+
+The AI suggested testing whether a user can access a protected page after logging out.
+
+**Suggested Test:** AUTH-01 — Protected Page Access After Logout
+
+**Test Objective:** Verify that the application terminates the authenticated session after logout and prevents access to protected pages.
+
+**Test Steps:**
+
+1. Log in using an active student account.
+2. Navigate to the My Profile page.
+3. Click Logout.
+4. Attempt to access `/php/profile.php` directly through the browser.
+5. Verify that the application redirects to the login page without displaying protected information.
+
+**Expected Result:** The application should redirect the user to the login page because the authenticated session has ended.
+
+**1. Is this test already covered?**
+
+I reviewed the automated test results from Part 8. The user management tests included login validation, account status checks, and role-based access restrictions.
+
+However, none of the displayed test results specifically verified access to a protected page after logout. Based on the available output, this scenario does not appear to have an explicitly identified automated test. The test source code would need to be reviewed to confirm whether it is already covered.
+
+**2. How would I test it manually or automatically?**
+
+I would manually log in using a student account, open the profile page, and then log out. After logging out, I would enter the profile page URL directly into the browser to verify that the application redirects me to the login page.
+
+For an automated test, I would verify that the session is destroyed after logout and that a subsequent unauthenticated request to a protected page is redirected to the login page.
+
+**3. Is the AI-generated test appropriate?**
+
+Yes, I believe this is an appropriate test because the application uses PHP sessions to control access to protected pages.
+
+During Part 5, I encountered an issue with the logout function that required correcting the `setcookie()` call in `includes/auth.php`.
+
+Although the logout function worked after the correction, testing direct access to protected pages would provide additional evidence that session management is functioning correctly.
+
+This test would help ensure that users cannot continue accessing protected account information after logging out.
+
+**Evaluation Result:** Appropriate additional security test. The logout function was retested successfully, but direct protected-page access after logout still needs to be verified.
+
+---
+
+### Skills Pack Reflection
+
+Using the AI tool helped me better understand how the different PHP files work together throughout the application, especially how information moves between the presentation, service, and database layers. It also helped me trace the registration and login processes and identify which files were responsible for authentication and authorization. During testing, AI helped me understand the errors I encountered, including the logout issue and the three failed integration tests. I learned that developers should not rely completely on AI-generated explanations or code because AI can make incorrect assumptions or overlook important details. It is important to compare AI responses against the actual requirements, source code, and test results to make sure the application works as intended.
+
+## Part 10: Inspect the Database
+
+### Database Inspection
+
+**Command used:**
+
+```bash
+sqlite3 database/tutoring.db
+```
+
+**SQL Query:**
+
+```sql
+SELECT
+    u.user_id,
+    u.full_name,
+    u.email,
+    u.role,
+    u.status,
+    s.student_id,
+    s.student_name,
+    s.student_email
+FROM users AS u
+LEFT JOIN students AS s
+    ON u.user_id = s.user_id
+ORDER BY u.user_id;
+```
+
+**Query Results:**
+
+```text
+1|Test Administrator|admin@example.com|Administrator|Active|||
+2|Tom Holland|tholland@sample.com|Student|Active|2|Tom Holland|tholland@sample.com
+```
+
+**Result:** Pass
+
+The query successfully returned two user accounts. The administrator account did not have a matching student profile, while the student account had a matching record in the `students` table.
+
+### Database Questions
+
+**1. What does the LEFT JOIN do in this query?**
+
+The `LEFT JOIN` combines information from the `users` and `students` tables based on their matching `user_id`. It returns all records from the `users` table, even when there is no matching record in the `students` table. If there is no matching student record, the student information appears as NULL.
+
+**2. How does the users table connect to the students table?**
+
+The two tables are connected through the `user_id` column. The `users` table stores the main account information, while the `students` table uses `user_id` to link a student profile to the correct account. In my query results, Tom Holland has a user ID of 2, which connects to his student profile. This allows the application to retrieve the correct student information.
+
+**3. Why does the application store account information separately from student profile information?**
+
+The application separates account information from student profile information to keep the database organized and reduce unnecessary duplication. The `users` table stores information needed for authentication and account management, such as email, password hash, role, and status. The `students` table stores information related specifically to the student's profile. This separation makes it easier to support different account roles without requiring every user to have a student profile.
+
+**4. Why may an administrator account not have a matching row in the students table?**
+
+An administrator account may not have a matching student record because administrators have a different role in the application. Their main responsibility is to manage users and oversee tutoring requests rather than submit requests as students. In my query results, the Test Administrator account appeared with no matching student information, which demonstrates how the `LEFT JOIN` works.
+
+### Database Inspection Summary
+
+This activity helped me understand how the application uses relationships between database tables to organize user information. The query returned both the administrator and student accounts, even though only the student account had a matching student profile.
+
+The results confirmed that the `users` and `students` tables are connected through `user_id` and that account information is stored separately from student-specific information. This structure allows the application to support different user roles while keeping the database organized.
