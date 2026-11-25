@@ -32,13 +32,17 @@ Once the information has been stored, the controller redirects the student to th
 
 ### 7. Comparison with Lab 7
 
+Some similarities that I noticed from Laravel and the architecture we have been using throughtout our previous labs, is that both approaches separate responsibilities within the application. For example, in our labs we use PHP pages, services, and repositories to handle different responsibilities, and we use PDO to communicate with the SQLite database.
 
+What I see Laravel offering is that it provides a more standardized way of organizing these files. This could be helpful when working on larger applications because it would give you a better understanding of where to look for specific functionality. 
+
+I think one of the reasons we are not converting our current project to Laravel is because we are still learning how the different components of a web application communicate with each other. If we were to move to Laravel, some of these responsbilities would be handled by the framework. 
 
 ## Part 3: Evidence of Completion
 
 ### Screenshot 1: Running Application
 
-![Running Laravel application](screenshots/lab8-running.png)
+![Running Laravel application](images/working-application.png)
 
 ### MVC Files Examined
 
@@ -49,4 +53,4 @@ Once the information has been stored, the controller redirects the student to th
 
 ### Reflection
 
-[Write approximately one paragraph about what became easier to understand through Laravel and what was confusing or unfamiliar when exploring its files.]
+Before this lab, I was not familiar with Laravel or how the MVC pattern worked. I am still trying to understand how all the different files in a web application communicate with each other. Going through the process of submitting a tutoring request and then looking throught the code helpe me make some of those connections.I did find it a little overwhelming looking through all the folders and files that Laravel has compared to what we have been working with in our previous labs. 
