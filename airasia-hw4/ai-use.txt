@@ -1,0 +1,75 @@
+AirAsia HW3 — AI Use Disclosure
+
+AI Tool Used:
+ChatGPT (OpenAI)
+
+Purpose:
+I used ChatGPT to assist with extending my HW2 AirAsia Gift Card application into a PHP and SQLite database-driven application for HW3.
+
+AI Assistance:
+- Explained PHP PDO and SQLite database connections.
+- Assisted with creating the database schema and sample records.
+- Suggested PHP code for listing, viewing, adding, updating, and deleting Gift Cards.
+- Helped develop reusable server-side validation functions.
+- Assisted with creating shared PHP header, navigation, and footer templates.
+- Suggested automated validation test cases.
+- Assisted with preparing the README, use case traceability table, and test documentation.
+
+Example Prompts:
+1. Help me connect my AirAsia HW3 application to SQLite using PDO.
+2. Let's continue with making card-list.php dynamic.
+3. Let's continue with card-add.php and saving new Gift Cards to SQLite.
+4. Why am I getting this error?
+5. Why does the Add Gift Card link appear twice?
+6. Help me create an automated validation test harness.
+
+AI Suggestion Tested and Revised:
+When I implemented the shared PHP templates, the Add Gift Card link appeared twice on the webpage. I reviewed the code and found that the original navigation from HW2 was still present alongside the shared navigation template. I removed the duplicate navigation markup and tested the pages again.
+
+Another issue occurred during the Add Gift Card workflow when PHP displayed a "headers already sent" warning. I investigated the placement of PHP output and the redirect statement before retesting the application.
+
+Verification:
+I tested the CRUD operations through the browser and verified database changes using SQLite queries. I also ran the automated validation test harness, which returned ten passing tests and zero failures.
+
+I reviewed the AI-generated suggestions and made changes while testing the application. The final project was checked against the HW3 requirements and the AirAsia Requirements Document.
+
+HW4 – AI Use Disclosure
+
+1. AI Tool Used
+
+OpenAI ChatGPT
+
+2. Prompts Used
+
+Examples of the tasks and prompts used during the development of HW4 are summarized below:
+
+- Provide step-by-step instructions to complete the AirAsia HW4 assignment using my existing HW3 application.
+- Review the existing database schema before implementing authentication and redemption functionality.
+- Help troubleshoot errors encountered while running the application in GitHub Codespaces.
+- Review screenshots and database query results to verify application functionality.
+- Help develop test cases for authentication, authorization, customer creation, and gift card redemption.
+- Review the application functionality against the homework requirements.
+
+3. How AI Supported My Work
+
+I used ChatGPT to help break down the homework into smaller sections so that I could implement and test each functionality before moving on to the next section. AI assisted with generating PHP and SQL code, explaining how the code worked, troubleshooting errors, and developing test cases.
+
+I provided screenshots, existing code, database structures, and terminal results to help ensure that the suggested changes were consistent with my existing AirAsia application.
+
+4. AI Suggestion Tested or Revised
+
+One issue I encountered was with the role-based navigation. After implementing the customer profile functionality, the My Profile link was not displayed, and the navigation displayed two Logout links.
+
+I provided a screenshot to ChatGPT and used its suggested troubleshooting steps to correct the navigation code. I refreshed the application and verified that the correct navigation links were displayed for the Customer.
+
+Another issue occurred when verifying the password of a newly created customer. After further troubleshooting, I determined that I had omitted the exclamation mark when entering the password. I corrected the input and successfully logged in without modifying the application code.
+
+5. Verification of Application Functionality
+
+I verified authentication by logging in using the required Admin and Customer accounts. I verified authorization by attempting to access an Admin-only page while logged in as a Customer and confirming that access was denied.
+
+I verified customer creation by querying the USER and ACCOUNT tables and confirming that the new customer records were created and the password was stored as a hash.
+
+For gift card redemption, I successfully redeemed a gift card requiring 2,500 points from an account containing 12,000 points. I verified that the remaining balance was 9,500 points. I then attempted to redeem a gift card requiring 10,000 points and confirmed that the application rejected the redemption due to insufficient points.
+
+I used database queries to verify the account balance and redemption records. AI assisted with the development and troubleshooting process, but I performed the application testing in GitHub Codespaces.
